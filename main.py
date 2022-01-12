@@ -1,15 +1,19 @@
 from logging import NullHandler
 from fastapi import FastAPI, HTTPException
 from datetime import datetime
+import base64
+import numpy as np
+from PIL import Image
+from io import BytesIO
 
-from classes.return_class import ReturnModel
+from classes.return_class import ReturnModel, ReceiveImage
 from utils.model.prepare_rcnn_model import prepare_rcnn_model
 from utils.model.predict import predict
 from utils.essential.get_datetime import get_datetime
 
 app = FastAPI()
 
-predictor = prepare_rcnn_model()  # loads de model when start
+#predictor = prepare_rcnn_model()  # loads de model when start
 
 @app.get("/ping")
 async def ping_():
@@ -38,12 +42,9 @@ async def prepare_():
 
         
 @app.post("/model")
-async def predict_():
-    res = predict(None, predictor, True)
-    return ReturnModel(
-        datetime=get_datetime(),
-        data=[res],
-        status=200,
-        description="prediction using the faster rcnn" 
-    )
+async def predict_(img_base64: ReceiveImage):
+    img = Image.open(BytesIO(base64.b64decode(img_base64.data)))
+    img_to_array = np.array(img)
+    print(img_to_array)
+    
 
