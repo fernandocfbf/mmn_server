@@ -4,7 +4,11 @@ import cv2
 import base64
 
 from utils.model.image_show import image_show
+from utils.model.tranform_classes import class_to_string
 from constants import *
+
+from PIL import Image
+
 
 
 def predict(img, predictor, test=False):
@@ -25,7 +29,7 @@ def predict(img, predictor, test=False):
 
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     classes = outputs["instances"].pred_classes
-    prediction = cv2.resize(out.get_image()[:, :, ::-1], (100, 100))
-    base64_img = base64.b64encode(prediction).decode('utf-8')
-    
-    return classes, prediction
+    prediction = cv2.resize(out.get_image()[:, :, ::-1], (400, 400))
+    cv2.imwrite('prediction_test.jpg', prediction)
+    classes_tranform = class_to_string(classes)
+    return classes_tranform, prediction

@@ -48,9 +48,7 @@ async def predict_(img_base64: ReceiveImage):
         img = Image.open(BytesIO(base64.b64decode(img_base64.data)))
         img.save('imageToSave.jpg')
         img_to_array = np.array(img)
-        classes, prediction = predict(img_to_array, predictor)   
-
-        print(prediction, type(prediction))
+        classes, prediction = predict(img_to_array, predictor, test=True)  
 
         img = Image.fromarray(prediction.astype("uint8"))
         rawBytes = BytesIO()
@@ -58,7 +56,7 @@ async def predict_(img_base64: ReceiveImage):
         rawBytes.seek(0)
         img_base64 = str(base64.b64encode(rawBytes.read()))
 
-        print(img_base64)
+        print(classes)
 
         return ReturnModel(
                 datetime=get_datetime(),
