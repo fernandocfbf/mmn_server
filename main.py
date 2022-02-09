@@ -48,7 +48,7 @@ async def predict_(img_base64: ReceiveImage):
         img = Image.open(BytesIO(base64.b64decode(img_base64.data)))
         img.save('imageToSave.jpg')
         img_to_array = np.array(img)
-        classes, prediction = predict(img_to_array, predictor, test=True)  
+        classes, prediction, macro_nutrients = predict(img_to_array, predictor, test=True)  
 
         img = Image.fromarray(prediction.astype("uint8"))
         rawBytes = BytesIO()
@@ -60,7 +60,7 @@ async def predict_(img_base64: ReceiveImage):
 
         return ReturnModel(
                 datetime=get_datetime(),
-                data=[{'classes': classes, 'prediction': img_base64}],
+                data=[{'classes': classes, 'prediction': img_base64, 'macro_nutrients': macro_nutrients}],
                 status=200,
                 description="model ready"
             )

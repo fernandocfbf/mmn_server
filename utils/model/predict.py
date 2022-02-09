@@ -5,6 +5,7 @@ import base64
 
 from utils.model.image_show import image_show
 from utils.model.tranform_classes import class_to_string
+from utils.model.calculate_macronutrients import calculate_macronutrients
 from constants import *
 
 from PIL import Image
@@ -32,4 +33,5 @@ def predict(img, predictor, test=False):
     prediction = cv2.resize(out.get_image()[:, :, ::-1], (400, 400))
     cv2.imwrite('prediction_test.jpg', prediction)
     classes_tranform = class_to_string(classes)
-    return classes_tranform, prediction
+    get_macronutrients = calculate_macronutrients(classes_tranform)
+    return classes_tranform, prediction, get_macronutrients

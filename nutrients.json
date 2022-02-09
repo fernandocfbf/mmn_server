@@ -1,0 +1,22 @@
+{
+    "french_fries": {
+        "protein": 3,
+        "carb": 27,
+        "fat": 10
+    },
+    "hot_dog": {
+        "protein": 12,
+        "carb": 2,
+        "fat": 21
+    },
+    "rice": {
+        "protein": 6,
+        "carb": 86,
+        "fat": 0
+    },
+    "steak": {
+        "protein": 23,
+        "carb": 0,
+        "fat": 3
+    }
+}
